@@ -1,0 +1,19 @@
+
+  .layoutMainContainer {
+    display: flex;
+    
+  }
+  .headerOutLetdiv{
+    padding:55px;
+  margin-left: 360px;
+  width: 100%;
+  
+  }
+@media screen and (max-width:768px) {
+   .headerOutLetdiv{
+    margin-left: 0;
+    padding: 15px;
+    margin-top: 100px;
+   }
+}
+

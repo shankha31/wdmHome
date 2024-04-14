@@ -1,0 +1,19 @@
+/*MARRI ANIKETH REDDY*/
+/* 1002114304*/
+.tableContainer {
+  border: "1px solid black";
+  border-collapse: "collapse";
+  width: "100%";
+  background-color: "red";
+}
+.tableHeadCont {
+  border: "1px solid black";
+  padding: "18px";
+}
+.tableHead {
+  border: "1px solid black";
+}
+.tableDataCont {
+  border: "1px solid black";
+  padding: "12px";
+}

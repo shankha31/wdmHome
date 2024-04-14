@@ -1,0 +1,53 @@
+/* about.css */
+
+/* Main Content */
+.about-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: #f9f9f9; /* Added background color */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Added box shadow for depth */
+}
+
+.about-page h2 {
+  font-size: 32px; /* Increased font size */
+  margin-bottom: 30px; /* Increased spacing */
+  color: #333; /* Update color */
+}
+
+.project-info {
+  margin-bottom: 40px;
+}
+
+.project-info h3 {
+  font-size: 24px; /* Increased font size */
+  margin-bottom: 20px; /* Increased spacing */
+  color: #333; /* Update color */
+}
+
+.project-info p {
+  font-size: 18px; /* Increased font size */
+  line-height: 1.6; /* Increased line height for better readability */
+  color: #555; /* Update color */
+}
+
+.team-info {
+  margin-bottom: 40px;
+}
+
+.team-info h3 {
+  font-size: 24px; /* Increased font size */
+  margin-bottom: 20px; /* Increased spacing */
+  color: #333; /* Update color */
+}
+
+.team-member {
+  margin-bottom: 20px;
+}
+
+.team-member h4 {
+  font-size: 20px; /* Increased font size */
+  margin: 0;
+  color: #555; /* Update color */
+}

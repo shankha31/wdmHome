@@ -1,0 +1,70 @@
+/*KYAHTAM SATHEESH */
+/* 1002148841 */
+
+.weeklyReportsCont {
+  display: flex;
+  flex-direction: column;
+}
+.weekCardcont {
+  background-color: white;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  padding: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+/* .btnContainer{
+    text-align: right;
+    
+} */
+.btnClass {
+  text-transform: none;
+  color: #192126;
+  padding: 15px;
+  /* padding: 10px 18px; */
+  font-family: "Lato";
+  border-radius: 11px;
+  font-weight: 600;
+  background-color: #bbf246;
+  border: none;
+  cursor: pointer;
+  width: 22%;
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 0;
+}
+.uploadContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top: 25px;
+}
+
+.uploadfileBtn {
+  background-color: #24222066;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 21%;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  margin-right: 10px;
+  margin-bottom: 15px;
+}
+@media screen and (max-width: 768px) {
+  .weekCardcont {
+    display: flex;
+
+    flex-direction: column;
+  }
+  .btnClass {
+    width: 100%;
+  }
+  .uploadfileBtn {
+    width: 100%;
+  }
+}

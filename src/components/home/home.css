@@ -1,0 +1,74 @@
+/* home.css */
+
+/* Main Content */
+.home-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px; /* Increased padding */
+  text-align: center;
+  background-color: #f9f9f9; /* Added background color */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.hero-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.hero-section h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #333; /* Update color */
+}
+
+.hero-section p {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.hero-section button {
+  padding: 12px 24px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hero-section button:hover {
+  background-color: #0056b3;
+}
+
+.features-section {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.features-section h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.features-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.features-section li {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+/* Footer */
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

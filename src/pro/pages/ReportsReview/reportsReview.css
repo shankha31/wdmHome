@@ -1,0 +1,26 @@
+.reportsReviewContainer{
+    display: flex;
+    flex-direction: column;
+}
+.reportsCont{
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+.inputStyless {
+    border-radius: 8px;
+    border: 0.6px solid #B1B1B1;
+    background: #FFF;
+    width: 50%; 
+    margin-bottom: 20px; 
+    padding: 15px; 
+    outline: none;
+    margin-right: 10px;
+
+}
+.reportCard{
+    text-align: left;
+}

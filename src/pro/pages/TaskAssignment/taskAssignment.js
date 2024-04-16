@@ -126,7 +126,7 @@ const TaskAssignment = () => {
                 <p>{task.description}</p>
                 <p>{task.startDate}</p>
                 <p>{task.deadline}</p>
-                
+
                 <p>{task.priority}</p>
                 <p>{task.feedback}</p>
               </div>
@@ -168,7 +168,12 @@ const TaskAssignment = () => {
           <button className="uploadfileBtn" onClick={handleFileClick}>
             upload file
           </button>
-          <input type="file" ref={fileInputRef} className="fileinput" />
+          <input
+            type="file"
+            accept=".pdf,.docx"
+            ref={fileInputRef}
+            className="fileinput"
+          />
           <textarea
             type="text"
             rows={5}
@@ -180,27 +185,14 @@ const TaskAssignment = () => {
         </div>
 
         <div className="inputContainers">
-        <input
+          <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Task Name"
             className="inputStyles"
           />
-          <input
-            type="date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            placeholder="Task Deadline"
-            className="inputStyles"
-          />
-          <input
-            type="date"
-            value={deadline}
-            onChange={(e) => setDeadline(e.target.value)}
-            placeholder="Task Deadline"
-            className="inputStyles"
-          />
+
           <input
             type="text"
             value={priority}
@@ -214,6 +206,33 @@ const TaskAssignment = () => {
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
             placeholder="Feedback"
+            className="inputStyles"
+          />
+        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label>Task Start Date</label>
+          <input
+            type="date"
+            style={{ width: "45%" }}
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            placeholder="Task Start Date"
+            className="inputStyles"
+          />
+        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label>Task Deadline</label>
+          <input
+            style={{ width: "45%" }}
+            type="date"
+            value={deadline}
+            disabled={startDate === ""}
+            onChange={(e) => {
+              e.target.value >= startDate
+                ? setDeadline(e.target.value)
+                : alert("Deadline Should not be before start date");
+            }}
+            placeholder="Task Deadline"
             className="inputStyles"
           />
         </div>

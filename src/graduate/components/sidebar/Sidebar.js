@@ -13,6 +13,11 @@ const adminMenusList = [
     path: "/graduate/deadlines",
   },
   {
+    id: 6,
+    menuText: "Task calendar",
+    path: "/graduate/task-calender",
+  },
+  {
     id: 3,
     menuText: "Weekly Reports",
     path: "/graduate/weekly_reports",

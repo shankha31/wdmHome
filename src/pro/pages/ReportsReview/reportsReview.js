@@ -48,10 +48,16 @@ const ReportsReview = () => {
               Student Name :
               {report.graduate ? report.graduate.name : "TestName"}
             </p>
-            <p>Report:<a target="_blank" href={`${mediaUrl}/${report.file}`}>{report.file}</a></p>
+            <p>
+              Report:
+              <a target="_blank" href={`${mediaUrl}/${report.file}`}>
+                {report.file}
+              </a>
+            </p>
+            <p>Copied:{report?.copied}</p>
             <h2>AI Report</h2>
-                <p>fakeness:{JSON.parse(report?.ai_score).fakePercentage}</p>
-                <p>human:{JSON.parse(report?.ai_score).isHuman}</p>
+            <p>fakeness:{JSON.parse(report?.ai_score).fakePercentage}</p>
+            <p>human:{JSON.parse(report?.ai_score).isHuman}</p>
           </div>
           {/* <textarea
             type="text"

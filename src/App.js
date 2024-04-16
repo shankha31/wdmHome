@@ -25,6 +25,7 @@ import MessagesProf from "./pro/pages/MessagesProf/messages";
 import TaskDetails from "./pro/components/taskDeatils/taskDeatils";
 import ProtectedRouteProf from "./pro/components/ProtectedRouteProf/protectedRoute";
 import SubmitedTask from "./pro/pages/SubmitedTask/submitedTask";
+import TaskCallender from "./graduate/pages/TaskCallender/TaskCallender";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
               <Route path="deadlines" element={<UpcomingDeadLines />} />
               <Route path="weekly_reports" element={<WeeklyReports />} />
               <Route path="messages" element={<Message />} />
+              <Route path="task-calender" element={<TaskCallender />} />
             </Route>
           </Route>
 

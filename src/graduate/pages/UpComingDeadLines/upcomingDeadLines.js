@@ -57,9 +57,9 @@ const UpcomingDeadLines = () => {
           <>
             <div className="upcomingSubContainer">
               <div className="upcomingCard">
-                <h3>Task ID : {itm.task}</h3>
-                <h3>Task Name : {itm.name}</h3>
-                <h3>Task Deadline : {itm.deadline}</h3>
+                <h3>Task ID : {itm.id}</h3>
+                <h3>Task Name : {itm.task?.name}</h3>
+                <h3>Task Deadline : {itm.task?.deadline}</h3>
               </div>
               <div className="uploadContainer">
                 <button className="uploadfileBtn" onClick={handleFileClick}>
@@ -77,7 +77,7 @@ const UpcomingDeadLines = () => {
               </div>
               <div className="btnContainer">
                 <button
-                  onClick={() => handleSubmit(itm.task)}
+                  onClick={() => handleSubmit(itm.task?.id)}
                   className="btnClass"
                 >
                   Submit

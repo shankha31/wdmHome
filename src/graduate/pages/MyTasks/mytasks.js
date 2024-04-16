@@ -19,6 +19,7 @@ const MyTasks = () => {
   useEffect(() => {
     fetchTasksOfGraduate();
   }, []);
+  console.log('tt',taskDetails);
   return (
     <div>
       <h2>My Tasks</h2>
@@ -47,14 +48,14 @@ const MyTasks = () => {
           <tbody key={task.id}>
             <tr>
               <td style={{ border: "1px solid black", padding: "12px" }}>
-                {task.task}
+                Task
               </td>
               <td style={{ border: "1px solid black", padding: "12px" }}>
                 {task.name}
               </td>
-              <td style={{ border: "1px solid black" }}>{task.deadLine}</td>
-              <td style={{ border: "1px solid black" }}>{task.priority}</td>
-              <td style={{ border: "1px solid black" }}>{task.description}</td>
+              <td style={{ border: "1px solid black" }}>{task.task?.deadline}</td>
+              <td style={{ border: "1px solid black" }}>{task.task?.priority}</td>
+              <td style={{ border: "1px solid black" }}>{task.task?.description}</td>
             </tr>
           </tbody>
         ))}

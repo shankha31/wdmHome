@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./submitedTask.css";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import {
   currentTasksData,
   previousTasksData,
@@ -26,7 +26,7 @@ const SubmitedTask = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${url}/tasks`);
+      const response = await axios.get(`${url}/submissions`);
       console.log(response);
       setTaskData(response.data);
     } catch (error) {
@@ -100,7 +100,7 @@ const SubmitedTask = () => {
       toast.error("Error creating task");
     }
   };
-
+  
   return (
     <div>
       <div className="taskAssignContainer">
@@ -114,14 +114,18 @@ const SubmitedTask = () => {
                 key={task.id}
               >
                 <h2>{task.feedback}</h2>
-                <p>{task.description}</p>
-                <p>{task.deadline}</p>
+                <p>{task.task?.description}</p>
+                <p>{task.task?.deadline}</p>
                 <p>{task.priority}</p>
                 <p>{task.feedback}</p>
-                <p>Cheating - Yes/No</p>
-                <Form.Item name="grade" label="Grade">
+                <p>{task.graduate?.name}</p>
+                <p>copied Content:{task.copied_content}</p>
+                <h2>AI Report</h2>
+                <p>fakeness:{JSON.parse(task?.ai_report).fakePercentage}</p>
+                <p>human:{JSON.parse(task?.ai_report).isHuman}</p>
+                {/* <Form.Item name="grade" label="Grade">
                   <Input></Input>
-                </Form.Item>
+                </Form.Item> */}
               </div>
             ))}
           </div>

@@ -19,8 +19,10 @@ const TaskAssignment = () => {
   const [isUpcoming, setIsUpcoming] = useState(false);
   const [taskDescription, setTaskDescription] = useState("");
   const [deadline, setDeadline] = useState("");
+  const [startDate, setStartDate] = useState("");
   const [priority, setPriority] = useState("");
   const [feedback, setFeedback] = useState("");
+  const [name, setName] = useState("");
   const [graduates, setGraduates] = useState([]);
   const [currTask, setCurrentTask] = useState({});
 
@@ -48,7 +50,8 @@ const TaskAssignment = () => {
     fetchData();
   }, []);
 
-  const handleFileClick = () => {
+  const handleFileClick = (e) => {
+    e.preventDefault();
     fileInputRef.current.click();
   };
 
@@ -77,12 +80,18 @@ const TaskAssignment = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      // const extention = fileInputRef.current.files[0]?.name.split(".").pop();
+      // if (extention !== "pdf") {
+      //   return toast.error("File must be in pdf format");
+      // }
       const formData = new FormData();
       formData.append("file", fileInputRef.current.files[0]);
-      formData.append("taskDescription", taskDescription);
+      formData.append("description", taskDescription);
+      formData.append("startDate", startDate);
       formData.append("deadline", deadline);
       formData.append("priority", priority);
       formData.append("feedback", feedback);
+      formData.append("name", name);
 
       const response = await axios.post(`${url}/tasks`, formData, {
         headers: {
@@ -115,7 +124,9 @@ const TaskAssignment = () => {
               >
                 <h2>{task.feedback}</h2>
                 <p>{task.description}</p>
+                <p>{task.startDate}</p>
                 <p>{task.deadline}</p>
+                
                 <p>{task.priority}</p>
                 <p>{task.feedback}</p>
               </div>
@@ -169,8 +180,22 @@ const TaskAssignment = () => {
         </div>
 
         <div className="inputContainers">
-          <input
+        <input
             type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Task Name"
+            className="inputStyles"
+          />
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            placeholder="Task Deadline"
+            className="inputStyles"
+          />
+          <input
+            type="date"
             value={deadline}
             onChange={(e) => setDeadline(e.target.value)}
             placeholder="Task Deadline"

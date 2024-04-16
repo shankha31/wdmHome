@@ -1,206 +1,183 @@
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Avatar from 'react-avatar';
+import io from "socket.io-client";
 
+import {
+  MainContainer,
+  MessageInput,
+  MessageHeader
+} from "@minchat/react-chat-ui";
+import { MessageList, } from 'react-chat-elements'
+import 'react-chat-elements/dist/main.css'
+import url from "../../../globalUrl";
+// const url2 = "http://localhost:5550";
+const url2 = "https://wdmchat.onrender.com"
 
-import "./messages.css"
-import {chats} from "../../data";
-
-
-
+const socket = io.connect(url2);
 const Message = () => {
-  const fileInputRef = useRef(null);
-  const [activee, setActivee] = useState(0);
-  const [messages, setMessages] = useState([]);
-  const [activemessage, setActivemessage] = useState("");
-  const [input, setInput] = useState("");
-  const [change, setChange] = useState("Renuka  ");
-  const [searchMessages, setSearchMessages] = useState("");
-  const [selectedEmoji, setSelectedEmoji] = useState("");
-  const chatRef = useRef(null);
+  const [contacts, setContacts] = useState([]);
+  const [to, setTo] = useState(null);
+  const [dataSource, setDataSource] = useState([])
+  const user = JSON.parse(localStorage.getItem("userData"));
+
+  const fetchContacts = async () => {
+    try {
+      const response = await axios.get(`${url}/chatUsers`);
+      console.log(response);
+      let c= response.data.filter((contact) => contact.id !== user.chatUserId);
+      setContacts(c);
+    } catch (error) {
+      console.log(error);
+    }
+  
+  }
+
+  const sendMessage = async (message) => {
+    try {
+      const response = await axios.post(`${url}/messages/create`, {
+        from_user: user.chatUserId,
+        to_user: to,
+        content: message
+      });
+      console.log(response);
+
+      const newMessage = {
+        position: 'left',
+        type: 'text',
+        text: message,
+        date: new Date(),
+      }
+      const data = {
+        from_user: user.chatUserId,
+        to_user: to,
+        content: message,
+        date: new Date()
+      }
+      await socket.emit("send_message", data)
+      setDataSource([...dataSource, newMessage]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  const loadMessages = async (to) => {
+   try {
+      const response = await axios.post(`${url}/messages`, {
+        from_user: user.chatUserId,
+        to_user: to
+      });
+      console.log(response);
+      const messages = response.data.map((msg) => {
+        return {
+          position: msg.from_user === user.chatUserId ? 'left' : 'right',
+          type: 'text',
+          text: msg.content,
+          date: new Date(msg.created_at)
+        }
+      })
+      setDataSource(messages);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    const handleReceivedMessage = (data) => {
+      console.log('recieve',data);
+      if(data.to_user===user.chatUserId){
+        // setDataSource([...dataSource, {
+        //   position: 'right',
+        //   type: 'text',
+        //   title: 'Him',
+        //   titleColor: 'blue',
+        //   text: data.message,
+        //   date: new Date(),
+        // }])
+        setDataSource(prev=>[...prev,{
+          position: 'right',
+          type: 'text',
+          title: data.name,
+          titleColor: 'blue',
+          text: data.content,
+          date: new Date(),
+        }])
+      }
+      console.log('recieve',data);
+    };
+
+    socket.on("recieve_message", handleReceivedMessage);
+
+    return () => {
+      // Clean up the event listener when the component unmounts
+      socket.off("recieve_message", handleReceivedMessage);
+    };
+  }, []);
 
   useEffect(() => {
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
-    }
-  }, [messages]);
-
-  const onChangeInput = (event) => {
-    setInput(event.target.value);
-    setSelectedEmoji(event.target.value);
-  };
-
-
-
-
-  const handleActivee = (id, name) => {
-    setActivee(id);
-    setChange(name);
-    setActivemessage(name);
-  };
-
-  const handleSend = (e) => {
-    if (e.key === "Enter") {
-      sendMessage();
-    }
-  };
-
-  const sendMessage = () => {
-    if (input.trim() !== "") {
-      const updatedMessage = [
-        ...messages,
-        { user: activemessage, text: `${input.trim()}` },
-      ];
-      localStorage.setItem("activemessage", JSON.stringify(updatedMessage));
-      setMessages(updatedMessage);
-      setInput("");
-      setSelectedEmoji("");
-     
-    }
-  };
-
-  const handleSearchChanges = (event) => {
-    setSearchMessages(event?.target.value);
-  };
-
-  const searchedMessages = chats.filter((mess) =>
-    mess.name.toLowerCase().includes(searchMessages.toLowerCase())
-  );
-
+    fetchContacts();
+  }, []);
+  
   return (
     <div className="mainCont">
-      <div className="messageCont">
-        <div className="messageSubCont">
-          <div className="messaging">
-            <div className="userCont">
-
-                <p className="messageName">Messaging</p>
-
-            </div>
-            <div>
-              <hr className="divider" />
-              <div>
-                  <input
-                   type="text"
-                    placeholder="Search messages"
-                    onChange={handleSearchChanges}
-                    value={searchMessages}
-                    className="inputStyless"
-                />
-              </div>
-                <hr className="divider" />
-                <div className="chatListCont">
-                  {searchedMessages.map((eachChat) => (
-                    <div
-                      key={eachChat.id}
-                      style={activee === eachChat.id ? { background: "#24222066", color: "#fff" } : {}}
-                      onClick={() => handleActivee(eachChat.id, eachChat.name)}
-                    >
-                      <div className="nameContainer">
-                      <div className="imagcont">
-                          <img
-                          src={eachChat.img}
-                          className="imagestyle"
-                          alt="image"
-                          />
-                        <div className="chatdesccont1">
-                          <p className="messageName">{eachChat.name}</p>
-                          
-                        </div>
-                      </div>
-                      <div className="desc">
-                        {new Date().toLocaleString("en-US", {
-                          hour: "numeric",
-                          minute: "numeric",
-                          hour12: true,
-                        })}
-                      </div>
-                      </div>
-                    </div>
-                  ))}
+      <div
+         style={{
+          display: "flex",
+          height: "100vh",
+        }}>
+          <div style={{
+            width: "35%",
+            height: "90vh",
+            border: "1px solid #ccc",
+            marginTop: "70px",
+            overflowY: "scroll",
+          }}>
+            {contacts.map((contact, index) => {
+              return (
+                <div id={index} style={{ width: '90%', borderBottom: '1px solid #ccc', height: '10%', padding: "10px 0 0 10px", cursor: 'pointer' }}
+                onClick={()=>{
+                  loadMessages(contact.id)
+                  setTo(contact.id)}}
+                >
+                  <Avatar name={contact.user?.name} size="50" round={true} />
+                  <span style={{ marginLeft: '10px' }}>{contact.user?.name}</span>
                 </div>
-              
-            </div>
+              )
+            })}
+
+
           </div>
-          <div className="chatCont">
-            <div>
-              <div className="descHeader">
-                <div>
-                  <p className="messageName">{change}</p>
-                  <p className="messageSubName">
-                    typing...
-                  </p>
-                </div>
+          <div style={{
+            width: "65%",
+            height: "100vh",
+            border: "1px solid #ccc",
+            overflowY: "scroll",
+            padding: "10px",
+            paddingTop: "70px",
+
+          }}
+
+          >
+            <MainContainer style={{ height: '100%', width: '99%' }}>
+              {/* <MessageHeader /> */}
+
+              <div id="chat-box" style={{ height: "100%", overflow: "scroll", width: "100%" }}>
+                {!to?<h1 style={{textAlign:"center"}}>Select a user to chat</h1>:<>
+                <MessageList
+                  dataSource={dataSource}
+                />
+                <MessageInput onSendMessage={async strng => {
+                   sendMessage(strng)
+                }} placeholder="Type message here" />
+                </>}
                 
               </div>
-              <hr className="divider"  />
-              <div className="chatDescCont" ref={chatRef}>
-                {messages.map((eachmess, index) => (
-                  <div
-                    key={index}
-                    // classame={{
-                    //   margin: "15px",
-                    //   ...eachmess.user === activemessage
-                    //     ?"sendcont"
-                    //     : "incomecont",
-                    // }}
-                    className={eachmess.user === activemessage ? "sendcont" : "incomecont"}
-                  >
-                  <div>
-                    {eachmess.user === activemessage ? (
-                      <p style={{display:"flex",justifyContent:"space-between"}}>  {eachmess.text}
-                        {eachmess.user === activemessage && (
-                          <div className="typo">
-                            
-                            {new Date().toLocaleString("en-US", {
-                              hour: "numeric",
-                              minute: "numeric",
-                              hour12: true,
-                            })}
-                          </div>
-                        )}
-                      </p>
-                    ) : (
-                      <div style={{display:"flex",alignItems:"center"}}>
-                      <p className="textt">{eachmess.text}</p>
-                      <div className="typo">
-                            
-                            {new Date().toLocaleString("en-US", {
-                              hour: "numeric",
-                              minute: "numeric",
-                              hour12: true,
-                            })}
-                          </div>
-                          </div>
-                    )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-           
-            <div>
-            
-              <div className="textfeildCont">
-                <textarea
-                  type="text"
-                  placeholder= "Write a message"
-                  className="chatInputStyles"
-                  onChange={onChangeInput}
-                  value={input}
-                  onKeyDown={handleSend}
-                />
-              </div>
-               <div className="sendBtnCont">
-               <button  className="sendBtn" onClick={sendMessage}>Send</button>
-            
-               </div>
-                 
-             
-            </div>
+
+            </MainContainer>
           </div>
-        </div>
-        <input type="file" ref={fileInputRef} className="inputfile" />
-      </div>
+
+          </div>
     </div>
   );
 };

@@ -3,7 +3,8 @@ import "./reportsReview.css";
 import axios from "axios";
 import url from "../../../globalUrl";
 import { Button, Form, InputNumber, Modal } from "antd";
-import { reports } from "../../data";
+import mediaUrl from "../../../mediaUrl";
+// import { reports } from "../../data";
 const ReportsReview = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [weekNumber, setWeekNumber] = useState(null);
@@ -24,36 +25,39 @@ const ReportsReview = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  // const [reports, setReports] = useState([]);
-  // const fetchReports = async () => {
-  //   try {
-  //     const response = await axios.get(`${url}/reports/graduate`);
-  //     console.log(response);
-  //     setReports(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchReports();
-  // }, []);
+  const [reports, setReports] = useState([]);
+  const fetchReports = async () => {
+    try {
+      const response = await axios.get(`${url}/reports`);
+      console.log(response);
+      setReports(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchReports();
+  }, []);
   return (
     <div className="reportsReviewContainer">
-      {reports.map((report) => (
+      {reports?.map((report) => (
         <div className="reportsCont" key={report.id}>
           <div className="reportCard">
-            <p>Name : {report.name ? report.name : "Test"}</p>
+            <p>Name : {report.week ? report.week.name : "Test"}</p>
             <p>
               Student Name :
-              {report.submittedBy ? report.submittedBy : "TestName"}
+              {report.graduate ? report.graduate.name : "TestName"}
             </p>
-            <p>{report.details}</p>
+            <p>Report:<a target="_blank" href={`${mediaUrl}/${report.file}`}>{report.file}</a></p>
+            <h2>AI Report</h2>
+                <p>fakeness:{JSON.parse(report?.ai_score).fakePercentage}</p>
+                <p>human:{JSON.parse(report?.ai_score).isHuman}</p>
           </div>
-          <textarea
+          {/* <textarea
             type="text"
             placeholder="Feedback"
             className="inputStyless"
-          />
+          /> */}
         </div>
       ))}
       <Button

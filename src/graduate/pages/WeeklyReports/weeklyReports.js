@@ -65,18 +65,18 @@ const WeeklyReports = () => {
   }, []);
   return (
     <div className="weeklyReportsCont">
-      {reports.map((week) => {
-        const report = weeks.find((r) => r.id === week.week);
+      {weeks.map((week) => {
+        const report = reports.find((r) => r.week === week.id);
         return (
           <div className="weekCardcont">
             <h1>Week - {week.week}</h1>
             {report ? (
               <>
                 <div>
-                  <p>Copied: {week?.copied}</p>
+                  <p>Copied: {report?.copied}</p>
                   <h2>AI Report</h2>
-                  <p>fakeness: {JSON.parse(week?.ai_score).fakePercentage}</p>
-                  <p>human: {JSON.parse(week?.ai_score).isHuman}</p>
+                  <p>fakeness: {JSON.parse(report?.ai_score).fakePercentage}</p>
+                  <p>human: {JSON.parse(report?.ai_score).isHuman}</p>
                 </div>
                 <button
                   disabled
